@@ -75,9 +75,10 @@ void exibir_fila(Fila* fila)
   if(fila_vazia(fila)){
     printf("Os leitos estão vazios!\n");
   }else{
-    printf("Leitos: ");
+    printf("------ Leitos ------\n");
     for(int i = 0; i < fila->tamanho; i++){
-   exibir_paciente(fila->pacientes[i]);
+      printf("Leito %d:", i + 1);
+      exibir_paciente(&(fila->pacientes[i]));
     }
     printf("\n");
   }

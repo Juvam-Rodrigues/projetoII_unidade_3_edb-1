@@ -18,5 +18,6 @@ typedef struct Paciente
 } Paciente;
 
 Paciente copiar_paciente(Paciente *orig);
+void exibir_paciente(Paciente *paciente);
 
 #endif
