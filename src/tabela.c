@@ -6,7 +6,8 @@
 
 void inicializar_tabela(Tabela *tabela)
 {
-    for (int i = 0; i < TAMANHO; i++)
+    tabela->tamanho = 50;
+    for (int i = 0; i < tabela->tamanho; i++)
     {
         tabela->tabela[i] = NULL;
     }
@@ -22,21 +23,7 @@ No *criar_no(Paciente paciente)
     No *novo_no = (No *)malloc(sizeof(No));
     if (novo_no) //Verifica se conseguiu alocar memória
     {
-        novo_no->paciente.ID = malloc(strlen(paciente.ID) + 1);
-        strcpy(novo_no->paciente.ID, paciente.ID);
-
-        novo_no->paciente.nome = malloc(strlen(paciente.nome) + 1);
-        strcpy(novo_no->paciente.nome, paciente.nome);
-
-        novo_no->paciente.idade = paciente.idade;
-        novo_no->paciente.sexo = paciente.sexo;
-
-        novo_no->paciente.cpf = malloc(strlen(paciente.cpf) + 1);
-        strcpy(novo_no->paciente.cpf, paciente.cpf);
-
-        novo_no->paciente.prioridade = paciente.prioridade;
-        novo_no->paciente.atendido = paciente.atendido;
-
+        novo_no->paciente = copiar_paciente(&paciente);
         novo_no->proximo = NULL;
     }
     return novo_no;
@@ -60,7 +47,7 @@ void inserir(Tabela *tabela, Paciente paciente, int chave)
 
 void imprimir_tabela(Tabela *tabela)
 {
-    for (int i = 0; i < TAMANHO; i++)
+    for (int i = 0; i < tabela->tamanho; i++)
     {
         printf("Índice %d: ", i);
         No *atual = tabela->tabela[i];
@@ -161,7 +148,12 @@ int preencherPacientes(Tabela *tabel, char* nomeArquivo)
         free(p.nome);
         free(p.cpf);
     }
-    imprimir_tabela(tabel);
+    //imprimir_tabela(tabel);
     fclose(arq);
     return 0;
+}
+
+int sortear_posicao(Tabela *tabel){
+    int numero = rand() % tabel->tamanho;
+    return numero;
 }

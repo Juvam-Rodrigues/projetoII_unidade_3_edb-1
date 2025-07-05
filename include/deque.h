@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "paciente.h"
+#include "tabela.h"
 
 #define TAMANHO 50
 

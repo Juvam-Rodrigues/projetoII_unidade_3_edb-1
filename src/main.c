@@ -1,9 +1,14 @@
 #include <stdio.h>
 #include "../include/tabela.h"
 #include "../include/paciente.h"
+#include "../include/deque.h"
 
 int main(int argc, char *argv[])
 {
+    
+    srand(time(NULL)); // Inicializa a semente, para mudar as sequências de números a cada execução
+    //Se baseia no tempo atual do computador
+
     if (argc < 2)
     {
         printf("Erro! Quantidade de argumentos insuficiente!");
@@ -16,5 +21,8 @@ int main(int argc, char *argv[])
     if(preencherPacientes(&tabela, nomeArquivo) == -1){
         return -1;
     }
+
+    Deque deque;
+    
 
 }
