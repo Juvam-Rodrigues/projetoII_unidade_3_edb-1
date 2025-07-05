@@ -42,7 +42,7 @@ Paciente remover_leitos(Leitos* leitos)
 {
   if(leitos_vazio(leitos)){
     printf("Os leitos estão vazios!\n");
-    Paciente paciente_vazio;
+    Paciente paciente_vazio = {0};
     return paciente_vazio;
   }else{
     Paciente paciente = leitos->pacientes[0];

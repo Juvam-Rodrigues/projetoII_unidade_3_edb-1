@@ -12,7 +12,7 @@
 
 #define TAMANHO_MAX 10
 
-typedef struct {
+typedef struct Leitos{
     Paciente pacientes[TAMANHO_MAX];
     int tamanho;
 } Leitos;

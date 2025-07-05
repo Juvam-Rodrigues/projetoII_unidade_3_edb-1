@@ -4,6 +4,7 @@
 #include "../include/paciente.h"
 #include "../include/deque.h"
 #include "../include/leitos.h"
+#include "../include/pilha.h"
 
 int main(int argc, char *argv[])
 {
@@ -65,6 +66,11 @@ int main(int argc, char *argv[])
     
     Paciente pacienteRemovidoLeito = remover_leitos(&leitos);
     printf("Pessoa teve alta: %s, %s, prioridade: %d\n\n", pacienteRemovidoLeito.ID, pacienteRemovidoLeito.nome, pacienteRemovidoLeito.prioridade);
+
+    Pilha historico;
+    push(&historico, &pacienteRemovidoLeito);
+    Paciente *h1 = peek(&historico);
+    printf("Histórico\n%s, %s", h1->ID, h1->nome);
 
     return 0;
 }
