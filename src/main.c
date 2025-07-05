@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
     printf("Pessoa teve alta: %s, %s, prioridade: %d\n\n", pacienteRemovidoLeito.ID, pacienteRemovidoLeito.nome, pacienteRemovidoLeito.prioridade);
 
     Pilha historico;
+    historico.topo = -1; //Histórico inicialmente vazio
     push(&historico, &pacienteRemovidoLeito);
     Paciente *h1 = peek(&historico);
     printf("Histórico\n%s, %s", h1->ID, h1->nome);
