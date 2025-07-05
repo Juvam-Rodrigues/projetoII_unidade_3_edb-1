@@ -15,22 +15,20 @@ int inserir_deque(Deque *d, Paciente *paciente)
 {
     if (d->tamanho < TAMANHODEQUE) // Verifica se o deque está cheio
     {
-        if (paciente->prioridade == 4 || paciente->prioridade == 5)
+        if (paciente->prioridade >= 4)
         { // Prioridade alta
             paciente->atendido += 1;
 
-            Paciente pacienteDeque = copiar_paciente(paciente);
+            insere_inicio(d, paciente);
 
-            insere_inicio(d, pacienteDeque);
             return 0;
         }
         else if (paciente->prioridade <= 3)
         { // Prioridade baixa
             paciente->atendido += 1;
 
-            Paciente pacienteDeque = copiar_paciente(paciente);
+            insere_final(d, paciente);
 
-            insere_final(d, pacienteDeque);
             return 0;
         }
     }
@@ -40,82 +38,87 @@ int inserir_deque(Deque *d, Paciente *paciente)
     }
 }
 
-void insere_inicio(Deque *d, Paciente paciente)
+Paciente remover_deque(Deque *d)
+{
+    if (d->tamanho > 0)
+    {
+        if (d->inicio->paciente.prioridade > d->final->paciente.prioridade)
+        {
+            return remove_inicio(d);
+        }
+        else if (d->inicio->paciente.prioridade < d->final->paciente.prioridade)
+        {
+            return remove_final(d);
+        }
+        else
+        {
+            return remove_inicio(d);
+        }
+    }
+    else
+    {
+        Paciente paciente_vazio = {0};
+        return paciente_vazio;
+        printf("Deque vazio!\n");
+    }
+}
+
+void insere_inicio(Deque *d, Paciente *paciente)
 {
     NoDeque *novo_no = (NoDeque *)malloc(sizeof(NoDeque));
     if (novo_no) // Verifica se conseguiu alocar memória
     {
-        novo_no->paciente.ID = malloc(strlen(paciente.ID) + 1);
-        strcpy(novo_no->paciente.ID, paciente.ID);
-
-        novo_no->paciente.nome = malloc(strlen(paciente.nome) + 1);
-        strcpy(novo_no->paciente.nome, paciente.nome);
-
-        novo_no->paciente.idade = paciente.idade;
-        novo_no->paciente.sexo = paciente.sexo;
-
-        novo_no->paciente.cpf = malloc(strlen(paciente.cpf) + 1);
-        strcpy(novo_no->paciente.cpf, paciente.cpf);
-
-        novo_no->paciente.prioridade = paciente.prioridade;
-        novo_no->paciente.atendido = paciente.atendido;
+        novo_no->paciente = copiar_paciente(paciente);
 
         novo_no->proximo = d->inicio;
         novo_no->anterior = NULL;
-    }
 
-    if (d->inicio != NULL)
+        if (d->inicio != NULL)
+        {
+            d->inicio->anterior = novo_no;
+        }
+
+        d->inicio = novo_no;
+
+        if (d->final == NULL)
+        {
+            d->final = novo_no;
+        }
+
+        d->tamanho++;
+    }
+    else
     {
-        d->inicio->anterior = novo_no;
+        printf("Erro de alocação.\n");
     }
-
-    d->inicio = novo_no;
-
-    if (d->final == NULL)
-    {
-        d->final = novo_no;
-    }
-
-    d->tamanho++;
 }
 
-void insere_final(Deque *d, Paciente paciente)
+void insere_final(Deque *d, Paciente *paciente)
 {
     NoDeque *novo_no = (NoDeque *)malloc(sizeof(NoDeque));
     if (novo_no)
     { // Verifica se conseguiu alocar memória
-        novo_no->paciente.ID = malloc(strlen(paciente.ID) + 1);
-        strcpy(novo_no->paciente.ID, paciente.ID);
-
-        novo_no->paciente.nome = malloc(strlen(paciente.nome) + 1);
-        strcpy(novo_no->paciente.nome, paciente.nome);
-
-        novo_no->paciente.idade = paciente.idade;
-        novo_no->paciente.sexo = paciente.sexo;
-
-        novo_no->paciente.cpf = malloc(strlen(paciente.cpf) + 1);
-        strcpy(novo_no->paciente.cpf, paciente.cpf);
-
-        novo_no->paciente.prioridade = paciente.prioridade;
-        novo_no->paciente.atendido = paciente.atendido;
-
+        novo_no->paciente = copiar_paciente(paciente);
         novo_no->proximo = NULL;
         novo_no->anterior = d->final;
-    }
 
-    if (d->final != NULL)
+        if (d->final != NULL)
+        {
+            d->final->proximo = novo_no;
+        }
+
+        d->final = novo_no;
+
+        if (d->inicio == NULL)
+        {
+            d->inicio = novo_no;
+        }
+        d->tamanho++;
+    }
+    else
     {
-        d->final->proximo = novo_no;
+        printf("Erro de alocação.\n");
     }
-
-    d->final = novo_no;
-
-    if (d->inicio == NULL)
-    {
-        d->inicio = novo_no;
-    }
-
-    d->tamanho++;
 }
 
 Paciente remove_inicio(Deque *d)
@@ -215,7 +218,7 @@ int esta_vazio(Deque *d)
     return d->tamanho == 0;
 }
 
-void imprime(Deque *d)
+void imprime_deque(Deque *d)
 {
     if (esta_vazio(d))
     {
@@ -228,7 +231,7 @@ void imprime(Deque *d)
     printf("Deque: ");
     while (aux != NULL)
     {
-        printf("ID: %s, Nome: %s, Idade: %d, Sexo: %c, CPF: %s, Prioridade: %d, Atendido: %d\n",
+        printf("ID: %s, Nome: %s, Idade: %d, Sexo: %c, CPF: %s, Prioridade: %d, Atendido: %d\n\n",
                aux->paciente.ID,
                aux->paciente.nome,
                aux->paciente.idade,
