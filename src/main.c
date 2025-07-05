@@ -3,6 +3,7 @@
 #include "../include/tabela.h"
 #include "../include/paciente.h"
 #include "../include/deque.h"
+#include "../include/leitos.h"
 
 int main(int argc, char *argv[])
 {
@@ -50,8 +51,20 @@ int main(int argc, char *argv[])
     }
     imprime_deque(&deque);
 
+    Leitos leitos;
+    inicializar_leitos(&leitos);
+
     Paciente pacienteRemovido = remover_deque(&deque);
+    
     printf("Pessoa removida do deque: %s, %s, prioridade: %d\n\n", pacienteRemovido.ID, pacienteRemovido.nome, pacienteRemovido.prioridade);
     imprime_deque(&deque);
+    
+    inserir_leitos(&leitos, pacienteRemovido);
+    printf("Pessoa encaminhada para o leito: %s, %s, prioridade: %d\n\n", pacienteRemovido.ID, pacienteRemovido.nome, pacienteRemovido.prioridade);
+    exibir_leitos(&leitos);
+    
+    Paciente pacienteRemovidoLeito = remover_leitos(&leitos);
+    printf("Pessoa teve alta: %s, %s, prioridade: %d\n\n", pacienteRemovidoLeito.ID, pacienteRemovidoLeito.nome, pacienteRemovidoLeito.prioridade);
 
+    return 0;
 }
