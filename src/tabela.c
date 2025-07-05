@@ -15,7 +15,7 @@ void inicializar_tabela(Tabela *tabela)
 
 int funcao_hash(int chave)
 {
-    return chave % TAMANHO;
+    return chave % TAMANHOTABELA;
 }
 
 NoTabela *criar_no(Paciente paciente)
@@ -144,16 +144,16 @@ int preencherPacientes(Tabela *tabel, char *nomeArquivo)
         }
 
         char *chave = malloc(strlen(p.ID) - 2); //-3 dá parte do PAC + 1 do /0 = 2
-        strcpy(chave, p.ID + 3); //Copia do índice 3 para frente 
+        strcpy(chave, p.ID + 3);                // Copia do índice 3 para frente
 
         inserir(tabel, p, atoi(chave));
-        
+
         free(chave);
         free(p.ID);
         free(p.nome);
         free(p.cpf);
     }
-    imprimir_tabela(tabel);
+    // imprimir_tabela(tabel);
     fclose(arq);
     return 0;
 }
@@ -162,4 +162,23 @@ int sortear_posicao(Tabela *tabel)
 {
     int numero = rand() % tabel->tamanho;
     return numero;
+}
+
+Paciente *buscar_paciente_tabela(Tabela *tabela, int numeroSorteado)
+{
+    NoTabela *atual = tabela->tabela[numeroSorteado];
+
+    while (atual != NULL)
+    {
+        if (atual->paciente.atendido == 0)
+        {
+            return &(atual->paciente);
+        }
+        atual = atual->proximo;
+    }
+
+    // Não achou alguém sem ser atendido, vai sorteando até sair
+    int novoNumeroSorteado = sortear_posicao(tabela);
+
+    return buscar_paciente_tabela(tabela, novoNumeroSorteado);
 }

@@ -11,6 +11,35 @@ void inicia_deque(Deque *d)
     d->tamanho = 0;
 }
 
+int inserir_deque(Deque *d, Paciente *paciente)
+{
+    if (d->tamanho < TAMANHODEQUE) // Verifica se o deque está cheio
+    {
+        if (paciente->prioridade == 4 || paciente->prioridade == 5)
+        { // Prioridade alta
+            paciente->atendido += 1;
+
+            Paciente pacienteDeque = copiar_paciente(paciente);
+
+            insere_inicio(d, pacienteDeque);
+            return 0;
+        }
+        else if (paciente->prioridade <= 3)
+        { // Prioridade baixa
+            paciente->atendido += 1;
+
+            Paciente pacienteDeque = copiar_paciente(paciente);
+
+            insere_final(d, pacienteDeque);
+            return 0;
+        }
+    }
+    else
+    {
+        return -1;
+    }
+}
+
 void insere_inicio(Deque *d, Paciente paciente)
 {
     NoDeque *novo_no = (NoDeque *)malloc(sizeof(NoDeque));

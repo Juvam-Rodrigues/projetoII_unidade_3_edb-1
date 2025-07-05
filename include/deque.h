@@ -6,7 +6,7 @@
 #include "paciente.h"
 #include "tabela.h"
 
-#define TAMANHO 50
+#define TAMANHODEQUE 20
 
 typedef struct NoDeque{
   Paciente paciente;
@@ -21,6 +21,7 @@ typedef struct Deque{
 }Deque;
 
 void inicia_deque(Deque *d);
+int inserir_deque(Deque *d, Paciente *paciente);
 void insere_inicio(Deque *d, Paciente paciente);
 void insere_final(Deque *d, Paciente paciente);
 Paciente remove_inicio(Deque *d);
