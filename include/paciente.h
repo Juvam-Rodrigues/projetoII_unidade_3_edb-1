@@ -1,6 +1,10 @@
 #ifndef PACIENTE_H
 #define PACIENTE_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
+
 typedef struct Paciente
 {
     char *ID;
