@@ -47,7 +47,11 @@ int main(int argc, char *argv[])
         {
             printf("Deque cheio \n");
         }
-        printf("Pessoa sorteada: %s, %s, atendido: %d\n\n", pacienteSorteado->ID, pacienteSorteado->nome, pacienteSorteado->atendido);
     }
+    imprime_deque(&deque);
+
+    Paciente pacienteRemovido = remover_deque(&deque);
+    printf("Pessoa removida do deque: %s, %s, prioridade: %d\n\n", pacienteRemovido.ID, pacienteRemovido.nome, pacienteRemovido.prioridade);
+    imprime_deque(&deque);
 
 }
