@@ -18,10 +18,10 @@ int funcao_hash(int chave)
     return chave % TAMANHO;
 }
 
-No *criar_no(Paciente paciente)
+NoTabela *criar_no(Paciente paciente)
 {
-    No *novo_no = (No *)malloc(sizeof(No));
-    if (novo_no) //Verifica se conseguiu alocar memória
+    NoTabela *novo_no = (NoTabela *)malloc(sizeof(NoTabela));
+    if (novo_no) // Verifica se conseguiu alocar memória
     {
         novo_no->paciente = copiar_paciente(&paciente);
         novo_no->proximo = NULL;
@@ -32,7 +32,7 @@ No *criar_no(Paciente paciente)
 void inserir(Tabela *tabela, Paciente paciente, int chave)
 {
     int indice = funcao_hash(chave);
-    No *novo_no = criar_no(paciente);
+    NoTabela *novo_no = criar_no(paciente);
 
     if (tabela->tabela[indice] == NULL)
     {
@@ -49,25 +49,26 @@ void imprimir_tabela(Tabela *tabela)
 {
     for (int i = 0; i < tabela->tamanho; i++)
     {
-        printf("Índice %d: ", i);
-        No *atual = tabela->tabela[i];
+        printf("\nÍndice %d: ", i);
+        NoTabela *atual = tabela->tabela[i];
         while (atual != NULL)
         {
-            printf("ID: %s\n", atual->paciente.ID);
-            printf("Nome: %s\n", atual->paciente.nome);
-            printf("Idade: %d\n", atual->paciente.idade);
-            printf("Sexo: %c\n", atual->paciente.sexo);
-            printf("CPF: %s\n", atual->paciente.cpf);
-            printf("Prioridade: %d\n", atual->paciente.prioridade);
-            printf("Atendido: %d\n", atual->paciente.atendido);
-            printf("--------\n");
+            printf("\n--------\n");
+            printf("ID: %s, ", atual->paciente.ID);
+            printf("Nome: %s, ", atual->paciente.nome);
+            printf("Idade: %d, ", atual->paciente.idade);
+            printf("Sexo: %c, ", atual->paciente.sexo);
+            printf("CPF: %s, ", atual->paciente.cpf);
+            printf("Prioridade: %d, ", atual->paciente.prioridade);
+            printf("Atendido: %d.", atual->paciente.atendido);
+            printf("\n--------\n");
             atual = atual->proximo;
         }
-        printf("NULL\n");
+        printf("Nó cauda = NULL\n");
     }
 }
 
-int preencherPacientes(Tabela *tabel, char* nomeArquivo)
+int preencherPacientes(Tabela *tabel, char *nomeArquivo)
 {
     FILE *arq = fopen(nomeArquivo, "r"); // Modo de leitura
 
@@ -142,18 +143,23 @@ int preencherPacientes(Tabela *tabel, char* nomeArquivo)
             p.atendido = atoi(campo);
         }
 
-        inserir(tabel, p, atoi(p.cpf));
+        char *chave = malloc(strlen(p.ID) - 2); //-3 dá parte do PAC + 1 do /0 = 2
+        strcpy(chave, p.ID + 3); //Copia do índice 3 para frente 
 
+        inserir(tabel, p, atoi(chave));
+        
+        free(chave);
         free(p.ID);
         free(p.nome);
         free(p.cpf);
     }
-    //imprimir_tabela(tabel);
+    imprimir_tabela(tabel);
     fclose(arq);
     return 0;
 }
 
-int sortear_posicao(Tabela *tabel){
+int sortear_posicao(Tabela *tabel)
+{
     int numero = rand() % tabel->tamanho;
     return numero;
 }

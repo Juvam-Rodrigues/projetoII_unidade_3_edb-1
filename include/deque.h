@@ -8,15 +8,15 @@
 
 #define TAMANHO 50
 
-typedef struct No{
+typedef struct NoDeque{
   Paciente paciente;
-  struct no *proximo;
-  struct no *anterior;
-}No;
+  struct NoDeque *proximo;
+  struct NoDeque *anterior;
+}NoDeque;
 
 typedef struct Deque{
-  No *inicio;
-  No *final;
+  NoDeque *inicio;
+  NoDeque *final;
   int tamanho;
 }Deque;
 

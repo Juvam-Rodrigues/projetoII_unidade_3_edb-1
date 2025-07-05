@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../include/deque.h"
 #include "../include/paciente.h"
 
@@ -12,7 +13,7 @@ void inicia_deque(Deque *d)
 
 void insere_inicio(Deque *d, Paciente paciente)
 {
-    No *novo_no = (No *)malloc(sizeof(No));
+    NoDeque *novo_no = (NoDeque *)malloc(sizeof(NoDeque));
     if (novo_no) // Verifica se conseguiu alocar memória
     {
         novo_no->paciente.ID = malloc(strlen(paciente.ID) + 1);
@@ -51,7 +52,7 @@ void insere_inicio(Deque *d, Paciente paciente)
 
 void insere_final(Deque *d, Paciente paciente)
 {
-    No *novo_no = (No *)malloc(sizeof(No));
+    NoDeque *novo_no = (NoDeque *)malloc(sizeof(NoDeque));
     if (novo_no)
     { // Verifica se conseguiu alocar memória
         novo_no->paciente.ID = malloc(strlen(paciente.ID) + 1);
@@ -97,7 +98,7 @@ Paciente remove_inicio(Deque *d)
         return paciente_vazio;
     }
 
-    No *temp = d->inicio;
+    NoDeque *temp = d->inicio;
 
     Paciente copiaPaciente = copiar_paciente(&temp->paciente); // fazemos uma cópia do paciente para retornar ele
 
@@ -131,7 +132,7 @@ Paciente remove_final(Deque *d)
         return paciente_vazio;
     }
 
-    No *temp = d->final;
+    NoDeque *temp = d->final;
 
     Paciente copiaPaciente = copiar_paciente(&temp->paciente); // fazemos uma cópia do paciente para retornar ele
 
@@ -193,7 +194,7 @@ void imprime(Deque *d)
         return;
     }
 
-    No *aux = d->inicio;
+    NoDeque *aux = d->inicio;
 
     printf("Deque: ");
     while (aux != NULL)

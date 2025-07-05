@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "deque.h": "c",
+        "paciente.h": "c"
+    }
+}

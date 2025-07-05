@@ -1,4 +1,6 @@
 #include "../include/paciente.h"
+#include <string.h>
+#include <stdlib.h>
 
 Paciente copiar_paciente(Paciente *orig)
 {

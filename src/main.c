@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "../include/tabela.h"
 #include "../include/paciente.h"
 #include "../include/deque.h"
@@ -23,6 +24,9 @@ int main(int argc, char *argv[])
     }
 
     Deque deque;
+    inicia_deque(&deque);
+    int numeroSorteado;
+    numeroSorteado = sortear_posicao(&tabela);
     
 
 }

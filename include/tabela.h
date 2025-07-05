@@ -7,15 +7,15 @@
 
 #define TAMANHO 50
 
-typedef struct No
+typedef struct NoTabela
 {
   Paciente paciente;
-  struct No *proximo;
-} No;
+  struct NoTabela *proximo;
+} NoTabela;
 
 typedef struct Tabela
 {
-  No *tabela[TAMANHO];
+  NoTabela *tabela[TAMANHO];
   int tamanho;
 } Tabela;
 
@@ -23,7 +23,7 @@ void inicializar_tabela(Tabela *tabela);
 int funcao_hash(int chave);
 int sortear_posicao(Tabela *tabel);
 int preencherPacientes(Tabela *tabel, char *nomeArquivo);
-No *criar_no(Paciente paciente);
+NoTabela *criar_no(Paciente paciente);
 void inserir(Tabela *tabela, Paciente paciente, int chave);
 void imprimir_tabela(Tabela *tabela);
 
