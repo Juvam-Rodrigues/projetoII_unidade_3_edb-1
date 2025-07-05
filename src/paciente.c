@@ -22,3 +22,15 @@ Paciente copiar_paciente(Paciente *orig)
 
     return c;
 }
+
+void exibir_paciente(Paciente *paciente)
+{
+    printf("\n--------\n");
+    printf("ID: %s, ", paciente->ID);
+    printf("Nome: %s, ", paciente->nome);
+    printf("Idade: %d, ", paciente->idade);
+    printf("Sexo: %c, ", paciente->sexo);
+    printf("CPF: %s, ", paciente->cpf);
+    printf("Prioridade: %d, ", paciente->prioridade);
+    printf("Atendido: %d.\n", paciente->atendido);
+}

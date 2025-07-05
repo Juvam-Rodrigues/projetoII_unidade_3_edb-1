@@ -53,15 +53,16 @@ void imprimir_tabela(Tabela *tabela)
         NoTabela *atual = tabela->tabela[i];
         while (atual != NULL)
         {
-            printf("\n--------\n");
-            printf("ID: %s, ", atual->paciente.ID);
-            printf("Nome: %s, ", atual->paciente.nome);
-            printf("Idade: %d, ", atual->paciente.idade);
-            printf("Sexo: %c, ", atual->paciente.sexo);
-            printf("CPF: %s, ", atual->paciente.cpf);
-            printf("Prioridade: %d, ", atual->paciente.prioridade);
-            printf("Atendido: %d.", atual->paciente.atendido);
-            printf("\n--------\n");
+            exibir_paciente(&atual->paciente);
+            // printf("\n--------\n");
+            // printf("ID: %s, ", atual->paciente.ID);
+            // printf("Nome: %s, ", atual->paciente.nome);
+            // printf("Idade: %d, ", atual->paciente.idade);
+            // printf("Sexo: %c, ", atual->paciente.sexo);
+            // printf("CPF: %s, ", atual->paciente.cpf);
+            // printf("Prioridade: %d, ", atual->paciente.prioridade);
+            // printf("Atendido: %d.", atual->paciente.atendido);
+            // printf("\n--------\n");
             atual = atual->proximo;
         }
         printf("Nó cauda = NULL\n");
