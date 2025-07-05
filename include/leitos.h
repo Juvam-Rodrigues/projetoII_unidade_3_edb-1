@@ -13,16 +13,16 @@
 #define TAMANHO_MAX 10
 
 typedef struct Leitos{
-    Paciente pacientes[TAMANHO_MAX];
+    Paciente *pacientes[TAMANHO_MAX];
     int tamanho;
 } Leitos;
 
 void inicializar_leitos(Leitos *leitos);
 int leitos_vazio(Leitos *leitos);
 int leitos_cheio(Leitos *leitos);
-void inserir_leitos(Leitos *leitos, Paciente valor);
-Paciente remover_leitos(Leitos *leitos);
-Paciente consultar_primeiro(Leitos *leitos);
+void inserir_leitos(Leitos *leitos, Paciente *paciente);
+Paciente* remover_leitos(Leitos *leitos);
+Paciente* consultar_primeiro(Leitos *leitos);
 void exibir_leitos(Leitos *leitos);
 
 #endif

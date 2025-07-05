@@ -23,7 +23,7 @@ NoTabela *criar_no(Paciente paciente)
     NoTabela *novo_no = (NoTabela *)malloc(sizeof(NoTabela));
     if (novo_no) // Verifica se conseguiu alocar memória
     {
-        novo_no->paciente = copiar_paciente(&paciente);
+        novo_no->paciente = *copiar_paciente(&paciente);
         novo_no->proximo = NULL;
     }
     return novo_no;
@@ -53,16 +53,8 @@ void imprimir_tabela(Tabela *tabela)
         NoTabela *atual = tabela->tabela[i];
         while (atual != NULL)
         {
-            exibir_paciente(&atual->paciente);
-            // printf("\n--------\n");
-            // printf("ID: %s, ", atual->paciente.ID);
-            // printf("Nome: %s, ", atual->paciente.nome);
-            // printf("Idade: %d, ", atual->paciente.idade);
-            // printf("Sexo: %c, ", atual->paciente.sexo);
-            // printf("CPF: %s, ", atual->paciente.cpf);
-            // printf("Prioridade: %d, ", atual->paciente.prioridade);
-            // printf("Atendido: %d.", atual->paciente.atendido);
-            // printf("\n--------\n");
+            Paciente *pacienteTemp = &atual->paciente;
+            exibir_paciente(pacienteTemp);
             atual = atual->proximo;
         }
         printf("Nó cauda = NULL\n");

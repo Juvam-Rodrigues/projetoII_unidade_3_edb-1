@@ -13,13 +13,10 @@ int esta_vazia(Pilha *p){
   return p->topo == -1;
 }
 
-Paciente pop(Pilha *p){
+Paciente* pop(Pilha *p){
   if(!esta_vazia(p)){
-    Paciente pacienteLiberado = copiar_paciente(p->pacientesAlta[p->topo]);
-    free(p->pacientesAlta[p->topo]->cpf);
-    free(p->pacientesAlta[p->topo]->nome);
-    free(p->pacientesAlta[p->topo]->ID);
-    free(p->pacientesAlta[p->topo]);
+    Paciente *pacienteLiberado = copiar_paciente(p->pacientesAlta[p->topo]);
+    liberar_paciente(p->pacientesAlta[p->topo]);
     
     p->topo --;
     return pacienteLiberado;
@@ -27,7 +24,7 @@ Paciente pop(Pilha *p){
 
   printf("Erro: Pilha vazia!\n");
 
-  Paciente pacienteVazio = {0};
+  Paciente *pacienteVazio = NULL;
   return pacienteVazio;
 }
 

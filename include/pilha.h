@@ -11,7 +11,7 @@ typedef struct Pilha{
 
 int esta_vazia(Pilha *p);
 void push(Pilha* p, Paciente *paciente);
-Paciente pop(Pilha *p);
+Paciente* pop(Pilha *p);
 Paciente* peek(Pilha *p);
 
 

@@ -38,7 +38,7 @@ int inserir_deque(Deque *d, Paciente *paciente)
     }
 }
 
-Paciente remover_deque(Deque *d)
+Paciente *remover_deque(Deque *d)
 {
     if (d->tamanho > 0)
     {
@@ -57,9 +57,10 @@ Paciente remover_deque(Deque *d)
     }
     else
     {
-        Paciente paciente_vazio = {0};
-        return paciente_vazio;
+        Paciente *paciente_vazio = NULL;
         printf("Deque vazio!\n");
+
+        return paciente_vazio;
     }
 }
 
@@ -68,7 +69,7 @@ void insere_inicio(Deque *d, Paciente *paciente)
     NoDeque *novo_no = (NoDeque *)malloc(sizeof(NoDeque));
     if (novo_no) // Verifica se conseguiu alocar memória
     {
-        novo_no->paciente = copiar_paciente(paciente);
+        novo_no->paciente = *copiar_paciente(paciente);
 
         novo_no->proximo = d->inicio;
         novo_no->anterior = NULL;
@@ -98,7 +99,7 @@ void insere_final(Deque *d, Paciente *paciente)
     NoDeque *novo_no = (NoDeque *)malloc(sizeof(NoDeque));
     if (novo_no)
     { // Verifica se conseguiu alocar memória
-        novo_no->paciente = copiar_paciente(paciente);
+        novo_no->paciente = *copiar_paciente(paciente);
         novo_no->proximo = NULL;
         novo_no->anterior = d->final;
 
@@ -121,18 +122,18 @@ void insere_final(Deque *d, Paciente *paciente)
     }
 }
 
-Paciente remove_inicio(Deque *d)
+Paciente *remove_inicio(Deque *d)
 {
     if (d->inicio == NULL)
     {
         printf("Deque vazio!\n");
-        Paciente paciente_vazio = {0};
+        Paciente *paciente_vazio = NULL;
         return paciente_vazio;
     }
 
     NoDeque *temp = d->inicio;
 
-    Paciente copiaPaciente = copiar_paciente(&temp->paciente); // fazemos uma cópia do paciente para retornar ele
+    Paciente *copiaPaciente = copiar_paciente(&temp->paciente); // fazemos uma cópia do paciente para retornar ele
 
     d->inicio = d->inicio->proximo;
 
@@ -155,18 +156,18 @@ Paciente remove_inicio(Deque *d)
     return copiaPaciente;
 }
 
-Paciente remove_final(Deque *d)
+Paciente *remove_final(Deque *d)
 {
     if (d->final == NULL)
     {
         printf("Deque vazio!\n");
-        Paciente paciente_vazio = {0};
+        Paciente *paciente_vazio = NULL;
         return paciente_vazio;
     }
 
     NoDeque *temp = d->final;
 
-    Paciente copiaPaciente = copiar_paciente(&temp->paciente); // fazemos uma cópia do paciente para retornar ele
+    Paciente *copiaPaciente = copiar_paciente(&temp->paciente); // fazemos uma cópia do paciente para retornar ele
 
     d->final = d->final->anterior;
 

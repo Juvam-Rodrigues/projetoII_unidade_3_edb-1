@@ -5,32 +5,35 @@
 
 //-----------------------------------
 
-void inicializar_leitos(Leitos* leitos)
+void inicializar_leitos(Leitos *leitos)
 {
   leitos->tamanho = 0;
 }
 
 //-----------------------------------
 
-int leitos_vazio(Leitos* leitos)
+int leitos_vazio(Leitos *leitos)
 {
   return leitos->tamanho == 0;
 }
 
 //-----------------------------------
 
-int leitos_cheio(Leitos* leitos)
+int leitos_cheio(Leitos *leitos)
 {
   return leitos->tamanho == TAMANHO_MAX;
 }
 
 //-----------------------------------
 
-void inserir_leitos(Leitos* leitos, Paciente paciente)
+void inserir_leitos(Leitos *leitos, Paciente *paciente)
 {
-  if(leitos_cheio(leitos)){
+  if (leitos_cheio(leitos))
+  {
     printf("Os leitos estão lotados!");
-  }else{
+  }
+  else
+  {
     leitos->pacientes[leitos->tamanho] = paciente;
     leitos->tamanho++;
   }
@@ -38,16 +41,22 @@ void inserir_leitos(Leitos* leitos, Paciente paciente)
 
 //-----------------------------------
 
-Paciente remover_leitos(Leitos* leitos)
+Paciente* remover_leitos(Leitos *leitos)
 {
-  if(leitos_vazio(leitos)){
+  if (leitos_vazio(leitos))
+  {
     printf("Os leitos estão vazios!\n");
-    Paciente paciente_vazio = {0};
+    Paciente *paciente_vazio = NULL;
     return paciente_vazio;
-  }else{
-    Paciente paciente = leitos->pacientes[0];
- 
-    for (int i = 1; i < leitos->tamanho; i++) {
+  }
+  else
+  {
+    Paciente *paciente = copiar_paciente(leitos->pacientes[0]);
+
+    liberar_paciente(leitos->pacientes[0]);
+
+    for (int i = 1; i < leitos->tamanho; i++)
+    {
       leitos->pacientes[i - 1] = leitos->pacientes[i];
     }
     leitos->tamanho--;
@@ -57,28 +66,36 @@ Paciente remover_leitos(Leitos* leitos)
 
 //-----------------------------------
 
-Paciente consultar_primeiro(Leitos* leitos)
+Paciente *consultar_primeiro(Leitos *leitos)
 {
-  if(leitos_vazio(leitos)){
+  if (leitos_vazio(leitos))
+  {
     printf("Os leitos estão vazios!\n");
-    Paciente paciente_vazio;
+    Paciente *paciente_vazio = NULL;
     return paciente_vazio;
-  }else{
+  }
+  else
+  {
     return leitos->pacientes[0];
   }
 }
 
 //-----------------------------------
 
-void exibir_leitos(Leitos* leitos)
+void exibir_leitos(Leitos *leitos)
 {
-  if(leitos_vazio(leitos)){
+  if (leitos_vazio(leitos))
+  {
     printf("Os leitos estão vazios!\n");
-  }else{
+  }
+  else
+  {
     printf("------ Leitos ------\n");
-    for(int i = 0; i < leitos->tamanho; i++){
+    for (int i = 0; i < leitos->tamanho; i++)
+    {
       printf("Leito %d:", i + 1);
-      exibir_paciente(&(leitos->pacientes[i]));
+      Paciente *pacienteTemp = leitos->pacientes[i];
+      exibir_paciente(pacienteTemp);
     }
     printf("\n");
   }

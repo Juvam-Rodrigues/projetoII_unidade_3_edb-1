@@ -3,6 +3,7 @@
         "*.embeddedhtml": "html",
         "deque.h": "c",
         "paciente.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "pilha.h": "c"
     }
 }
