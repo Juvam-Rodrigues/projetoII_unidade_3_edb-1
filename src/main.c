@@ -44,7 +44,41 @@ int main()
         printf("\nPacientes na fila de espera: %d  |  Pacientes nos leitos: %d  |  Pacientes com alta: %d\n", deque.tamanho, leitos.tamanho, historico.topo + 1);
         printf("\n");
 
-        //ETAPA 1 - Sortear pacientes e preencher a fila de espera 
+         //ETAPA 1 - Verificar se a condição é atendida para dar alta a paciente e inserir no histórico
+
+         if(!leitos_vazio(&leitos)) {
+            Paciente *primeiro_leito = consultar_primeiro(&leitos);
+
+            int validacao_alta = rand();
+
+            if (primeiro_leito != NULL && validacao_alta % 2 ==0 ) {
+                Paciente *pacienteDeAlta = remover_leitos(&leitos);
+                printf("ALTA CONCEDIDA para o paciente %s %s.\n", pacienteDeAlta->ID, pacienteDeAlta->nome);
+                push(&historico, pacienteDeAlta, &log);
+            } 
+        } 
+
+        //FIM DA ETAPA 1
+
+        //ETAPA 2 - Checar se há leitos disponíveis e internar paciente da fila de espera
+
+        if(!leitos_cheio(&leitos) && !deque_vazio(&deque)) {
+            Paciente *pacienteParaInternar = remover_deque(&deque);
+
+            if(pacienteParaInternar != NULL) {
+                inserir_leitos(&leitos, pacienteParaInternar, &log);
+                printf("\n----- INTERNAÇÃO -----\n");
+                printf("\nPaciente %s %s foi internado.\n", pacienteParaInternar->ID, pacienteParaInternar->nome);
+            }
+        }
+
+        printf("\n----- OCUPAÇÃO DOS LEITOS -----\n");
+        exibir_leitos(&leitos);
+        printf("\n--------------------------------\n");    
+        
+        //FIM DA ETAPA 2
+
+        //ETAPA 3 - Sortear pacientes e preencher a fila de espera 
 
         while(!deque_cheio(&deque)) {
             int numeroSorteado;
@@ -65,42 +99,6 @@ int main()
         printf("\n----- FILA DE ESPERA ATUAL -----\n");
         imprime_deque(&deque);
         printf("\n--------------------------------\n");    
-
-        //FIM DA ETAPA 1
-
-        //ETAPA 2 - Checar se há leitos disponíveis e internar paciente da fila de espera
-
-        if(!leitos_cheio(&leitos) && !deque_vazio(&deque)) {
-            Paciente *pacienteParaInternar = remover_deque(&deque);
-
-            if(pacienteParaInternar != NULL) {
-                inserir_leitos(&leitos, pacienteParaInternar, &log);
-                printf("\n----- INTERNAÇÃO -----\n");
-                printf("\nPaciente %s %s foi internado.\n", pacienteParaInternar->ID, pacienteParaInternar->nome);
-            }
-        }
-
-        printf("\n----- OCUPAÇÃO DOS LEITOS -----\n");
-        exibir_leitos(&leitos);
-        printf("\n--------------------------------\n");    
-
-        //FIM DA ETAPA 2
-
-        //ETAPA 3 - Verificar se a condição é atendida para dar alta a paciente e inserir no histórico
-
-        if(!leitos_vazio(&leitos)) {
-            Paciente *primeiro_leito = consultar_primeiro(&leitos);
-
-            int validacao_alta = rand();
-
-            if (primeiro_leito != NULL && validacao_alta % 2 ==0 ) {
-                Paciente *pacienteDeAlta = remover_leitos(&leitos);
-                printf("ALTA CONCEDIDA para o paciente %s %s.\n", pacienteDeAlta->ID, pacienteDeAlta->nome);
-                push(&historico, pacienteDeAlta, &log);
-            } else {
-                printf("Nenhum paciente teve alta neste ciclo.\n");
-            }
-        }
 
         //FIM DA ETAPA 3
 
