@@ -34,7 +34,7 @@ int preencher_log(Log *log, char *nomeArquivo)
     }
 
     log->qtdCiclos += 1;
-    fprintf(arq, "[CICLO %d]\n", log->qtdCiclos);
+    fprintf(arq, "\n[CICLO %d]\n", log->qtdCiclos);
 
     imprimir_log(log, arq);
     

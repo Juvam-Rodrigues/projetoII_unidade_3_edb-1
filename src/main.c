@@ -15,7 +15,7 @@ int main()
     // Se baseia no tempo atual em segundos do computador
 
     char *nomeArquivoCSV = "data/pacientes.csv";
-    char *nomeArquivoLog = "data/log.log";
+    char *nomeArquivoLog = "data/processamento.log";
 
     limpar_arquivo_log(nomeArquivoLog);
 
@@ -43,6 +43,8 @@ int main()
         printf("\n------------------------------------ NOVO CICLO ------------------------------------\n");
         printf("\nPacientes na fila de espera: %d  |  Pacientes nos leitos: %d  |  Pacientes com alta: %d\n", deque.tamanho, leitos.tamanho, historico.topo + 1);
         printf("\n");
+
+        limpar_listas(&log); 
 
          //ETAPA 1 - Verificar se a condição é atendida para dar alta a paciente e inserir no histórico
 
@@ -105,7 +107,7 @@ int main()
 
         //ETAPA 4 - Inserir os dados do ciclo no arquivo .log
 
-        int resultado = preencher_log(&log, "data/log.log");
+        int resultado = preencher_log(&log, "data/processamento.log");
         if (resultado == -1)
         {
             return -1;
@@ -122,7 +124,7 @@ int main()
             break;
         }
 
-        sleep(2);
+        // sleep(2);
    
         //FIM DA ETAPA 5 
     }
