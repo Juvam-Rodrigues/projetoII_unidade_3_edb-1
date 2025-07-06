@@ -141,12 +141,11 @@ int preencher_pacientes(Tabela *tabel, char *nomeArquivo)
 
         inserir_tabela(tabel, p, atoi(chave));
 
-        // free(chave);
-        // free(p.ID);
-        // free(p.nome);
-        // free(p.cpf);
+        free(chave);
+        free(p.ID);
+        free(p.nome);
+        free(p.cpf);
     }
-    // imprimir_tabela(tabel);
     fclose(arq);
     return 0;
 }
@@ -157,26 +156,31 @@ int sortear_posicao(Tabela *tabel)
     return numero;
 }
 
-int todos_pacientes_atendidos(Tabela *tabela) {
-    for (int i = 0; i < tabela->tamanho; i++) {
-        NoTabela *atual = tabela->tabela[i]; 
+int todos_pacientes_atendidos(Tabela *tabela)
+{
+    for (int i = 0; i < tabela->tamanho; i++)
+    {
+        NoTabela *atual = tabela->tabela[i];
 
-        while (atual != NULL) {
-            if (atual->paciente != NULL && atual->paciente->atendido == 0) {
-                return 0; 
+        while (atual != NULL)
+        {
+            if (atual->paciente != NULL && atual->paciente->atendido == 0)
+            {
+                return 0;
             }
-            atual = atual->proximo; 
+            atual = atual->proximo;
         }
     }
 
     return 1;
 }
 
-Paciente* buscar_paciente_tabela(Tabela *tabela, int numeroSorteado)
+Paciente *buscar_paciente_tabela(Tabela *tabela, int numeroSorteado)
 {
     NoTabela *atual = tabela->tabela[numeroSorteado];
 
-    if(todos_pacientes_atendidos(tabela) == 1) {
+    if (todos_pacientes_atendidos(tabela) == 1)
+    {
         printf("Todos os pacientes já foram atendidos!\n");
         return NULL;
     }
@@ -194,4 +198,20 @@ Paciente* buscar_paciente_tabela(Tabela *tabela, int numeroSorteado)
     int novoNumeroSorteado = sortear_posicao(tabela);
 
     return buscar_paciente_tabela(tabela, novoNumeroSorteado);
+}
+
+void liberar_tabela(Tabela *tabela)
+{
+    for (int i = 0; i < tabela->tamanho; i++)
+    {
+        NoTabela *atual = tabela->tabela[i]; //Para percorrer cada nó e liberar
+        while (atual != NULL)
+        {
+            NoTabela *prox = atual->proximo;
+            liberar_paciente(atual->paciente);
+            free(atual);
+            atual = prox;
+        }
+        tabela->tabela[i] = NULL;
+    }
 }

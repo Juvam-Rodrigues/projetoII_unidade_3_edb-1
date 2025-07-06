@@ -4,6 +4,7 @@
         "deque.h": "c",
         "paciente.h": "c",
         "cstdlib": "c",
-        "pilha.h": "c"
+        "pilha.h": "c",
+        "deque": "c"
     }
 }

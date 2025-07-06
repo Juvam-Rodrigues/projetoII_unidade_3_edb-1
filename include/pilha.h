@@ -16,7 +16,7 @@ int esta_cheia(Pilha *p);
 void push(Pilha* p, Paciente *paciente, Log *log);
 Paciente* pop(Pilha *p);
 Paciente* peek(Pilha *p);
-
+void liberar_pilha(Pilha *p);
 
 #endif
 

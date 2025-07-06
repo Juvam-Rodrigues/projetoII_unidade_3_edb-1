@@ -37,4 +37,7 @@ int todos_pacientes_atendidos(Tabela *tabela);
 //Imprime tabela
 void imprimir_tabela(Tabela *tabela);
 
+//Limpar tabela
+void liberar_tabela(Tabela *tabela);
+
 #endif

@@ -23,7 +23,7 @@ NoLog *criar_no_log(Paciente *paciente);
 void adicionar_paciente_espera_log(Log *log, Paciente *paciente);
 void adicionar_paciente_leito_log(Log *log, Paciente *paciente);
 void adicionar_paciente_alta_log(Log *log, Paciente *paciente);
-
+void limpar_listas(Log *log);
 void imprimir_log(Log *log, FILE *arq);
 void limpar_arquivo_log(const char *nomeArquivo);
 

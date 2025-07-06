@@ -53,7 +53,7 @@ int main()
 
             int validacao_alta = rand();
 
-            if (primeiro_leito != NULL && validacao_alta % 2 ==0 ) {
+            if (primeiro_leito != NULL && validacao_alta % 2 == 0 ) {
                 Paciente *pacienteDeAlta = remover_leitos(&leitos);
                 printf("ALTA CONCEDIDA para o paciente %s %s.\n", pacienteDeAlta->ID, pacienteDeAlta->nome);
                 push(&historico, pacienteDeAlta, &log);
@@ -130,5 +130,11 @@ int main()
     }
     
     printf("\n\n--- PROGRAMA FINALIZADO ---\n");
+
+    //LIBERANDO AS ESTRUTURAS QUE ARMAZENAM OS PONTEIROS FINAIS:
+    limpar_listas(&log);
+    liberar_tabela(&tabela);
+    liberar_pilha(&historico);
+
     return 0;
 }
