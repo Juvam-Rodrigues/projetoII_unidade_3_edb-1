@@ -1,7 +1,7 @@
 #ifndef PILHA_H //Histórico
 #define PILHA_H
 
-#define TAM_MAX 100
+#define TAM_MAX 50
 #include "paciente.h"
 #include "log.h"
 
