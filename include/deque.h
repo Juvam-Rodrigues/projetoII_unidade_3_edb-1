@@ -34,6 +34,7 @@ Paciente* remove_final(Deque *d);
 Paciente pega_inicio(Deque *d);
 Paciente pega_final(Deque *d);
 int esta_vazio(Deque *d);
+int deque_cheio(Deque *d);
 void imprime_deque(Deque *d);
 
 #endif

@@ -6,6 +6,7 @@
 #include "paciente.h"
 
 #define TAMANHOTABELA 50
+#define MAX_BUSCA_TENTATIVAS 100
 
 typedef struct NoTabela
 {
@@ -29,6 +30,9 @@ NoTabela *criar_no(Paciente paciente);
 //Parte de sortear
 int sortear_posicao(Tabela *tabel);
 Paciente* buscar_paciente_tabela(Tabela *tabela, int numeroSorteado);
+
+//Verificar se todos os pacientes foram atendidos
+int todos_pacientes_atendidos(Tabela *tabela);
 
 //Imprime tabela
 void imprimir_tabela(Tabela *tabela);

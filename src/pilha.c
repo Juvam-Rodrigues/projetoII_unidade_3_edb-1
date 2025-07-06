@@ -4,16 +4,20 @@
 
 
 void push(Pilha* p, Paciente *paciente, Log *log) {
-  if(p->topo < TAM_MAX-1){
+  if(esta_cheia(p)){
+    printf("Erro: Pilha cheia!\n");
+  } else {
     p->pacientesAlta[++p->topo] = paciente;
     adicionar_paciente_alta_log(log, paciente);
-  }else{
-    printf("Erro: Pilha cheia!\n");
   }
 }
 
 int esta_vazia(Pilha *p){
   return p->topo == -1;
+}
+
+int esta_cheia(Pilha *p){
+  return p->topo == TAM_MAX -1;
 }
 
 Paciente* pop(Pilha *p){

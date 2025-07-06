@@ -12,6 +12,7 @@ typedef struct Pilha{
 }Pilha;
 
 int esta_vazia(Pilha *p);
+int esta_cheia(Pilha *p);
 void push(Pilha* p, Paciente *paciente, Log *log);
 Paciente* pop(Pilha *p);
 Paciente* peek(Pilha *p);

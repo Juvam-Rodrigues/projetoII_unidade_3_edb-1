@@ -141,10 +141,10 @@ int preencher_pacientes(Tabela *tabel, char *nomeArquivo)
 
         inserir_tabela(tabel, p, atoi(chave));
 
-        free(chave);
-        free(p.ID);
-        free(p.nome);
-        free(p.cpf);
+        // free(chave);
+        // free(p.ID);
+        // free(p.nome);
+        // free(p.cpf);
     }
     // imprimir_tabela(tabel);
     fclose(arq);
@@ -157,9 +157,29 @@ int sortear_posicao(Tabela *tabel)
     return numero;
 }
 
+int todos_pacientes_atendidos(Tabela *tabela) {
+    for (int i = 0; i < tabela->tamanho; i++) {
+        NoTabela *atual = tabela->tabela[i]; 
+
+        while (atual != NULL) {
+            if (atual->paciente != NULL && atual->paciente->atendido == 0) {
+                return 0; 
+            }
+            atual = atual->proximo; 
+        }
+    }
+
+    return 1;
+}
+
 Paciente* buscar_paciente_tabela(Tabela *tabela, int numeroSorteado)
 {
     NoTabela *atual = tabela->tabela[numeroSorteado];
+
+    if(todos_pacientes_atendidos(tabela) == 1) {
+        printf("Todos os pacientes já foram atendidos!\n");
+        return NULL;
+    }
 
     while (atual != NULL)
     {
