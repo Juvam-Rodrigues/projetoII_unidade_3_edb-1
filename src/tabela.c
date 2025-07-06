@@ -67,7 +67,7 @@ int preencher_pacientes(Tabela *tabel, char *nomeArquivo)
 
     if (arq == NULL)
     {
-        printf("Arquivo não existe!");
+        printf("Erro ao abrir o arquivo '%s'.", nomeArquivo);
         return -1;
     }
 

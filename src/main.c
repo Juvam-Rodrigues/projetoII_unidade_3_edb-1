@@ -7,19 +7,14 @@
 #include "../include/pilha.h"
 #include "../include/log.h"
 
-int main(int argc, char *argv[])
+int main()
 {
 
     srand(time(NULL)); // Inicializa a semente, para mudar as sequências de números a cada execução
     // Se baseia no tempo atual em segundos do computador
 
-    if (argc < 2)
-    {
-        printf("Erro! Quantidade de argumentos insuficiente!");
-        return 1;
-    }
     char *nomeArquivo;
-    nomeArquivo = argv[1];
+    nomeArquivo = "data/pacientes.csv";
 
     Tabela tabela;
     Log log;
@@ -77,6 +72,10 @@ int main(int argc, char *argv[])
     Paciente *h1 = peek(&historico);
     printf("Histórico\n%s, %s\n\n", h1->ID, h1->nome);
 
-    int resultado = preencher_log(&log, "../data/log.log");
+    int resultado = preencher_log(&log, "data/log.log");
+    if (resultado == -1)
+    {
+        return -1;
+    }
     return 0;
 }
