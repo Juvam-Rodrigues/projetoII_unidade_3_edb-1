@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../include/leitos.h"
 #include "../include/paciente.h"
+#include "../include/log.h"
 
 //-----------------------------------
 
@@ -26,7 +27,7 @@ int leitos_cheio(Leitos *leitos)
 
 //-----------------------------------
 
-void inserir_leitos(Leitos *leitos, Paciente *paciente)
+void inserir_leitos(Leitos *leitos, Paciente *paciente, Log *log)
 {
   if (leitos_cheio(leitos))
   {
@@ -36,12 +37,13 @@ void inserir_leitos(Leitos *leitos, Paciente *paciente)
   {
     leitos->pacientes[leitos->tamanho] = paciente;
     leitos->tamanho++;
+    adicionar_paciente_leito_log(log, paciente);
   }
 }
 
 //-----------------------------------
 
-Paciente* remover_leitos(Leitos *leitos)
+Paciente *remover_leitos(Leitos *leitos)
 {
   if (leitos_vazio(leitos))
   {

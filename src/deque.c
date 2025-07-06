@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../include/deque.h"
 #include "../include/paciente.h"
+#include "../include/log.h"
 
 void inicia_deque(Deque *d)
 {
@@ -11,7 +12,7 @@ void inicia_deque(Deque *d)
     d->tamanho = 0;
 }
 
-int inserir_deque(Deque *d, Paciente *paciente)
+int inserir_deque(Deque *d, Paciente *paciente, Log *log)
 {
     if (d->tamanho < TAMANHODEQUE) // Verifica se o deque está cheio
     {
@@ -20,7 +21,7 @@ int inserir_deque(Deque *d, Paciente *paciente)
             paciente->atendido += 1;
 
             insere_inicio(d, paciente);
-
+            adicionar_paciente_espera_log(log, paciente);
             return 0;
         }
         else if (paciente->prioridade <= 3)
@@ -28,6 +29,7 @@ int inserir_deque(Deque *d, Paciente *paciente)
             paciente->atendido += 1;
 
             insere_final(d, paciente);
+            adicionar_paciente_espera_log(log, paciente);
 
             return 0;
         }

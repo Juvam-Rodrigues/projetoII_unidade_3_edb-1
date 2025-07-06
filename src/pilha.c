@@ -1,9 +1,12 @@
 #include "../include/pilha.h"
 #include "../include/paciente.h"
+#include "../include/log.h"
 
-void push(Pilha* p, Paciente *paciente) {
+
+void push(Pilha* p, Paciente *paciente, Log *log) {
   if(p->topo < TAM_MAX-1){
     p->pacientesAlta[++p->topo] = paciente;
+    adicionar_paciente_alta_log(log, paciente);
   }else{
     printf("Erro: Pilha cheia!\n");
   }

@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "paciente.h"
 #include "tabela.h"
+#include "log.h"
+
 
 #define TAMANHODEQUE 20
 
@@ -23,7 +25,7 @@ typedef struct Deque
 } Deque;
 
 void inicia_deque(Deque *d);
-int inserir_deque(Deque *d, Paciente *paciente);
+int inserir_deque(Deque *d, Paciente *paciente, Log *log);
 void insere_inicio(Deque *d, Paciente *paciente);
 void insere_final(Deque *d, Paciente *paciente);
 Paciente* remover_deque(Deque *d);

@@ -5,6 +5,7 @@
 #include "../include/deque.h"
 #include "../include/leitos.h"
 #include "../include/pilha.h"
+#include "../include/log.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +22,10 @@ int main(int argc, char *argv[])
     nomeArquivo = argv[1];
 
     Tabela tabela;
-    if (preencherPacientes(&tabela, nomeArquivo) == -1)
+    Log log;
+    inicializar_log(&log);
+
+    if (preencher_pacientes(&tabela, nomeArquivo) == -1)
     {
         return -1;
     }
@@ -38,12 +42,12 @@ int main(int argc, char *argv[])
         Paciente *pacienteSorteado;
         pacienteSorteado = buscar_paciente_tabela(&tabela, numeroSorteado);
 
-        printf("Pessoa sorteada: %s, %s, atendido: %d\n", pacienteSorteado->ID, pacienteSorteado->nome, pacienteSorteado->atendido);
+        //printf("Pessoa sorteada: %s, %s, atendido: %d\n", pacienteSorteado->ID, pacienteSorteado->nome, pacienteSorteado->atendido);
 
-        int resultado = inserir_deque(&deque, pacienteSorteado);
+        int resultado = inserir_deque(&deque, pacienteSorteado, &log);
         if (resultado == 0)
         {
-            printf("Inseriu pessoa no deque. \n");
+            //printf("Inseriu pessoa no deque. \n");
         }
         else
         {
@@ -58,9 +62,9 @@ int main(int argc, char *argv[])
     Paciente *pacienteRemovido = remover_deque(&deque);
     
     printf("Pessoa removida do deque: %s, %s, prioridade: %d\n\n", pacienteRemovido->ID, pacienteRemovido->nome, pacienteRemovido->prioridade);
-    imprime_deque(&deque);
+    //imprime_deque(&deque);
     
-    inserir_leitos(&leitos, pacienteRemovido);
+    inserir_leitos(&leitos, pacienteRemovido, &log);
     printf("Pessoa encaminhada para o leito: %s, %s, prioridade: %d\n\n", pacienteRemovido->ID, pacienteRemovido->nome, pacienteRemovido->prioridade);
     exibir_leitos(&leitos);
     
@@ -69,9 +73,10 @@ int main(int argc, char *argv[])
 
     Pilha historico;
     historico.topo = -1; //Histórico inicialmente vazio
-    push(&historico, pacienteRemovidoLeito);
+    push(&historico, pacienteRemovidoLeito, &log);
     Paciente *h1 = peek(&historico);
-    printf("Histórico\n%s, %s", h1->ID, h1->nome);
+    printf("Histórico\n%s, %s\n\n", h1->ID, h1->nome);
 
+    int resultado = preencher_log(&log, "../data/log.log");
     return 0;
 }

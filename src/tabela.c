@@ -23,13 +23,13 @@ NoTabela *criar_no(Paciente paciente)
     NoTabela *novo_no = (NoTabela *)malloc(sizeof(NoTabela));
     if (novo_no) // Verifica se conseguiu alocar memória
     {
-        novo_no->paciente = *copiar_paciente(&paciente);
+        novo_no->paciente = copiar_paciente(&paciente);
         novo_no->proximo = NULL;
     }
     return novo_no;
 }
 
-void inserir(Tabela *tabela, Paciente paciente, int chave)
+void inserir_tabela(Tabela *tabela, Paciente paciente, int chave)
 {
     int indice = funcao_hash(chave);
     NoTabela *novo_no = criar_no(paciente);
@@ -53,7 +53,7 @@ void imprimir_tabela(Tabela *tabela)
         NoTabela *atual = tabela->tabela[i];
         while (atual != NULL)
         {
-            Paciente *pacienteTemp = &atual->paciente;
+            Paciente *pacienteTemp = atual->paciente;
             exibir_paciente(pacienteTemp);
             atual = atual->proximo;
         }
@@ -61,7 +61,7 @@ void imprimir_tabela(Tabela *tabela)
     }
 }
 
-int preencherPacientes(Tabela *tabel, char *nomeArquivo)
+int preencher_pacientes(Tabela *tabel, char *nomeArquivo)
 {
     FILE *arq = fopen(nomeArquivo, "r"); // Modo de leitura
 
@@ -139,7 +139,7 @@ int preencherPacientes(Tabela *tabel, char *nomeArquivo)
         char *chave = malloc(strlen(p.ID) - 2); //-3 dá parte do PAC + 1 do /0 = 2
         strcpy(chave, p.ID + 3);                // Copia do índice 3 para frente
 
-        inserir(tabel, p, atoi(chave));
+        inserir_tabela(tabel, p, atoi(chave));
 
         free(chave);
         free(p.ID);
@@ -157,15 +157,15 @@ int sortear_posicao(Tabela *tabel)
     return numero;
 }
 
-Paciente *buscar_paciente_tabela(Tabela *tabela, int numeroSorteado)
+Paciente* buscar_paciente_tabela(Tabela *tabela, int numeroSorteado)
 {
     NoTabela *atual = tabela->tabela[numeroSorteado];
 
     while (atual != NULL)
     {
-        if (atual->paciente.atendido == 0)
+        if (atual->paciente->atendido == 0)
         {
-            return &(atual->paciente);
+            return atual->paciente;
         }
         atual = atual->proximo;
     }
