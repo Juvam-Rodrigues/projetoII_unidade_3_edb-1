@@ -25,7 +25,7 @@ void adicionar_paciente_leito_log(Log *log, Paciente *paciente);
 void adicionar_paciente_alta_log(Log *log, Paciente *paciente);
 
 void imprimir_log(Log *log, FILE *arq);
-
+void limpar_arquivo_log(const char *nomeArquivo);
 
 #endif
 

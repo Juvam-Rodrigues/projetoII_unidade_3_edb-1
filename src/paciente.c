@@ -42,5 +42,4 @@ void exibir_paciente(Paciente *paciente)
     printf("CPF: %s, ", paciente->cpf);
     printf("Prioridade: %d, ", paciente->prioridade);
     printf("Atendido: %d.\n", paciente->atendido);
-    printf("\n--------\n");
 }

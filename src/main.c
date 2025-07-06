@@ -14,8 +14,10 @@ int main()
     srand(time(NULL)); // Inicializa a semente, para mudar as sequências de números a cada execução
     // Se baseia no tempo atual em segundos do computador
 
-    char *nomeArquivo;
-    nomeArquivo = "data/pacientes.csv";
+    char *nomeArquivoCSV = "data/pacientes.csv";
+    char *nomeArquivoLog = "data/log.log";
+
+    limpar_arquivo_log(nomeArquivoLog);
 
     Tabela tabela;
     Log log;
@@ -26,87 +28,107 @@ int main()
     inicializar_leitos(&leitos);
     historico.topo = -1;
     inicializar_log(&log);
-    inicia_deque(&deque);
 
-    if (preencher_pacientes(&tabela, nomeArquivo) == -1)
+    inicia_deque(&deque);
+    if (preencher_pacientes(&tabela, nomeArquivoCSV) == -1)
     {
         return -1;
     }
 
 
-    int numeroSorteado;
-
-    for (int i = 0; i < 20; i++)
-    {
-        numeroSorteado = sortear_posicao(&tabela);
-
-        Paciente *pacienteSorteado;
-        pacienteSorteado = buscar_paciente_tabela(&tabela, numeroSorteado);
-
-        //printf("Pessoa sorteada: %s, %s, atendido: %d\n", pacienteSorteado->ID, pacienteSorteado->nome, pacienteSorteado->atendido);
-
-        int resultado = inserir_deque(&deque, pacienteSorteado, &log);
-        if (resultado == 0)
-        {
-            //printf("Inseriu pessoa no deque. \n");
-        }
-        else
-        {
-            printf("Deque cheio \n");
-        }
-    }
-    imprime_deque(&deque);
+    
 
     while (!esta_cheia(&historico))
     {
-        int posicao_sorteada = sortear_posicao(&tabela);
-        Paciente *paciente_sorteado = buscar_paciente_tabela(&tabela, posicao_sorteada);
+        printf("\n------------------------------------ NOVO CICLO ------------------------------------\n");
+        printf("\nPacientes na fila de espera: %d  |  Pacientes nos leitos: %d  |  Pacientes com alta: %d\n", deque.tamanho, leitos.tamanho, historico.topo + 1);
+        printf("\n");
 
-        if(paciente_sorteado != NULL) {
-            printf("Paciente sorteado para a fila de espera:\n");
-            exibir_paciente(paciente_sorteado);
-            inserir_deque(&deque, paciente_sorteado, &log);
+        //ETAPA 1 - Sortear pacientes e preencher a fila de espera 
+
+        while(!deque_cheio(&deque)) {
+            int numeroSorteado;
+            numeroSorteado = sortear_posicao(&tabela);
+    
+            Paciente *pacienteSorteado;
+            pacienteSorteado = buscar_paciente_tabela(&tabela, numeroSorteado);
+    
+            if(pacienteSorteado != NULL) {
+                inserir_deque(&deque, pacienteSorteado, &log);
+                printf("Paciente %s %s foi sorteado(a) para a fila de espera.\n", pacienteSorteado->ID, pacienteSorteado->nome);
+            } else {
+                printf("Não há mais pacientes para adicionar à fila.\n");
+                break;
+            }
+        }
+    
+        printf("\n----- FILA DE ESPERA ATUAL -----\n");
+        imprime_deque(&deque);
+        printf("\n--------------------------------\n");    
+
+        //FIM DA ETAPA 1
+
+        //ETAPA 2 - Checar se há leitos disponíveis e internar paciente da fila de espera
+
+        if(!leitos_cheio(&leitos) && !deque_vazio(&deque)) {
+            Paciente *pacienteParaInternar = remover_deque(&deque);
+
+            if(pacienteParaInternar != NULL) {
+                inserir_leitos(&leitos, pacienteParaInternar, &log);
+                printf("\n----- INTERNAÇÃO -----\n");
+                printf("\nPaciente %s %s foi internado.\n", pacienteParaInternar->ID, pacienteParaInternar->nome);
+            }
         }
 
-        if (paciente_sorteado == NULL) {
-            printf("Todos os pacientes já foram atendidos!\n");
-        }
+        printf("\n----- OCUPAÇÃO DOS LEITOS -----\n");
+        exibir_leitos(&leitos);
+        printf("\n--------------------------------\n");    
 
-        Paciente *pacienteRemovido = remover_deque(&deque);
+        //FIM DA ETAPA 2
 
-        if (pacienteRemovido != NULL) {
-            inserir_leitos(&leitos, pacienteRemovido, &log);
-            printf("\n--------\n");
-            printf("Paciente encaminhado para o leito: %s, %s, prioridade: %d\n\n", pacienteRemovido->ID, pacienteRemovido->nome, pacienteRemovido->prioridade);
-            exibir_leitos(&leitos);
+        //ETAPA 3 - Verificar se a condição é atendida para dar alta a paciente e inserir no histórico
+
+        if(!leitos_vazio(&leitos)) {
+            Paciente *primeiro_leito = consultar_primeiro(&leitos);
 
             int validacao_alta = rand();
-            Paciente *pacienteRemovidoLeito;
 
-            if (validacao_alta % pacienteRemovido->prioridade == 0)
-            { // Validação aleatoria se paciente terá alta ou nao, se o numero aleatorio gerado for divisivel pelo valor da prioridade do paciente, ele terá alta
-                pacienteRemovidoLeito = remover_leitos(&leitos);
-                printf("Paciente teve alta: %s, %s, prioridade: %d\n\n", pacienteRemovidoLeito->ID, pacienteRemovidoLeito->nome, pacienteRemovidoLeito->prioridade);
-                push(&historico, pacienteRemovidoLeito, &log);
-                Paciente *h1 = peek(&historico);
-                printf("Histórico\n%s, %s\n\n", h1->ID, h1->nome);
+            if (primeiro_leito != NULL && validacao_alta % 2 ==0 ) {
+                Paciente *pacienteDeAlta = remover_leitos(&leitos);
+                printf("ALTA CONCEDIDA para o paciente %s %s.\n", pacienteDeAlta->ID, pacienteDeAlta->nome);
+                push(&historico, pacienteDeAlta, &log);
             } else {
-            printf("Paciente %s ainda permanecerá no leito.", pacienteRemovido->nome);
+                printf("Nenhum paciente teve alta neste ciclo.\n");
+            }
         }
 
-        if (pacienteRemovido == NULL) {
-            printf("Todos os pacientes da fila de espera já foram encaminhados!\n");
+        //FIM DA ETAPA 3
+
+
+        //ETAPA 4 - Inserir os dados do ciclo no arquivo .log
+
+        int resultado = preencher_log(&log, "data/log.log");
+        if (resultado == -1)
+        {
+            return -1;
         }
 
-    }
+        //FIM DA ETAPA 4
 
+        //ETAPA 5 - Verificação adicional se o programa deve encerrar com base nas condições e delay de 2 segundos entre cada ciclo
 
-    int resultado = preencher_log(&log, "data/log.log");
-    if (resultado == -1)
-    {
-        return -1;
+        if (todos_pacientes_atendidos(&tabela) && deque_vazio(&deque) && leitos_vazio(&leitos)) {
+            printf("\n ----- Todos os pacientes foram atendidos e tiveram alta.-----\n");
+            printf("Total de pacientes com alta: %d\n", historico.topo + 1);
+            printf("\nEncerrando programa.....\n");
+            break;
+        }
+
+        // sleep(2);
+   
+        //FIM DA ETAPA 5 
     }
-    }
-        
+    
+    printf("\n\n--- PROGRAMA FINALIZADO ---\n");
     return 0;
 }

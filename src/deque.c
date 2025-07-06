@@ -16,6 +16,7 @@ int inserir_deque(Deque *d, Paciente *paciente, Log *log)
 {
     if (deque_cheio(d)) // Verifica se o deque está cheio
     {
+        printf("A fila de espera está cheia!\n");
         return -1;
     }
     else
@@ -214,20 +215,19 @@ Paciente pega_final(Deque *d)
     return d->final->paciente;
 }
 
-int esta_vazio(Deque *d)
+int deque_vazio(Deque *d)
 {
     return d->tamanho == 0;
 }
 
 int deque_cheio(Deque *d)
 {
-    printf("A fila de espera está cheia!\n");
     return d->tamanho == TAMANHODEQUE;
 }
 
 void imprime_deque(Deque *d)
 {
-    if (esta_vazio(d))
+    if (deque_vazio(d))
     {
         printf("Deque vazio!\n");
         return;
@@ -235,7 +235,7 @@ void imprime_deque(Deque *d)
 
     NoDeque *aux = d->inicio;
 
-    printf("------ Deque ------ \n");
+    printf("\n------ Deque ------ \n");
     while (aux != NULL)
     {
         printf("ID: %s, Nome: %s, Idade: %d, Sexo: %c, CPF: %s, Prioridade: %d, Atendido: %d\n\n",

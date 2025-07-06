@@ -159,3 +159,15 @@ void imprimir_log(Log *log, FILE *arq)
         aux = aux->proximo;
     }
 }
+
+void limpar_arquivo_log(const char *nomeArquivo) {
+    FILE *arq = fopen(nomeArquivo, "w");
+
+    if (arq == NULL) {
+        printf("Aviso: não foi possível limpar o arquivo de log '%s'.\n", nomeArquivo);
+        return;
+    }
+
+    fclose(arq);
+    printf("Arquivo de log '%s' foi limpo.\n", nomeArquivo);
+}

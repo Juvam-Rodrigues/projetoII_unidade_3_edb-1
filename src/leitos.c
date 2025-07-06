@@ -92,10 +92,10 @@ void exibir_leitos(Leitos *leitos)
   }
   else
   {
-    printf("------ Leitos ------\n");
+    printf("\n------ Leitos ------\n");
     for (int i = 0; i < leitos->tamanho; i++)
     {
-      printf("Leito %d:", i + 1);
+      printf("\nLeito %d:\n", i + 1);
       Paciente *pacienteTemp = leitos->pacientes[i];
       exibir_paciente(pacienteTemp);
     }
