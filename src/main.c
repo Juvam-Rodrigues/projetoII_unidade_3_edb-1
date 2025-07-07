@@ -124,7 +124,7 @@ int main()
             break;
         }
 
-        // sleep(2);
+        sleep(2);
    
         //FIM DA ETAPA 5 
     }
