@@ -40,7 +40,7 @@ int main()
 
     while (!esta_cheia(&historico))
     {
-        printf("\n------------------------------------ NOVO CICLO [%d]------------------------------------\n", log.qtdCiclos);
+        printf("\n------------------------------------ [CICLO %d] ------------------------------------\n", log.qtdCiclos);
         printf("\nPacientes na fila de espera: %d  |  Pacientes nos leitos: %d  |  Pacientes com alta: %d\n", deque.tamanho, leitos.tamanho, historico.topo + 1);
         printf("\n");
 
